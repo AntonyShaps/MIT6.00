@@ -74,36 +74,54 @@ def MonthsB():
 Part C: Finding the right amount to save away
 
 """
+semi_annual_raise=0.07
+r=0.04                        
+down_payment=250000
 
-portion_down_payment=0.25
+annual_salary1=int(input("Enter the starting salary:"))
 
-def MonthsC(portion_saved):
-    annual_salary=int(input("Enter your salary:"))
+def PortSave(portion_saved):
     
-    total_cost=1000000
-    semi_annual_raise=0.07
+    annual_salary=annual_salary1
+    savings=0
+    month_untill_finish=0
     
-    down_payment=total_cost*portion_down_payment
-    NumberOfMonths=0
-    current_savings=0
-    r=0.04
+    
     listk=[*range(0,1000,6)]
     listk.remove(0)
     
-    
-    while current_savings<=down_payment:
-            savings_yield=current_savings*r/12
-            current_savings=current_savings+(annual_salary/12*portion_saved/10000)+savings_yield
-            NumberOfMonths+=1
-            if NumberOfMonths in listk:
-                print(NumberOfMonths)
-                annual_salary=annual_salary+annual_salary*semi_annual_raise
-                print(annual_salary)
-       
-    print("Number of months: ", NumberOfMonths)
-    
-    
+    while savings-100<down_payment or savings+100<down_payment:
+        savings_yield=savings*r/12
+        savings=savings+savings_yield+(annual_salary/12*portion_saved/10000)
+        month_untill_finish+=1
+        if month_untill_finish in listk:
+            annual_salary=annual_salary+annual_salary*semi_annual_raise
+    return month_untill_finish
 
+
+
+num=0
+xmin=0
+xmax=10000
+num=0
+
+x=(xmax+xmin)/2 
+
+while PortSave(x)!=36:
+    num+=1
+    if int(x)==xmax:
+        print("It is not possible to pay the down payment in three years.")
+        break
+    elif PortSave(x)>36:
+        xmin=x
+    elif PortSave(x)<36:
+        xmax=x
+    x=(xmax+xmin)/2
+    
+        
+print("Best savings rate:", x/10000, "NumGuesses:",num)
+        
+    
 
 
 
